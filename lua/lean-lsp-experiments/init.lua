@@ -3,11 +3,12 @@ local Subsession = require('lean.rpc').Subsession
 local edit = require('lean-lsp-experiments.edit')
 
 
+---@param subsession any
 ---@param pos lsp.TextDocumentPositionParams
 ---@return InteractiveGoals goals
 ---@return LspError error
-function Subsession:declarationRangeAt(pos)
-  return self:call('rpcDeclarationRangeAt', pos)
+local function declarationRangeAt(subsession,pos)
+  return subsession:call('rpcDeclarationRangeAt', pos)
 end
 
 local LeanLspExperiments = {}
@@ -17,6 +18,6 @@ local function hello()
 end
 
 LeanLspExperiments.hello = hello
-
+LeanLspExperiments.declarationRangeAt = declarationRangeAt
 
 return LeanLspExperiments
