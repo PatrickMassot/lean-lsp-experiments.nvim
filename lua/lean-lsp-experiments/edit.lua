@@ -1,6 +1,8 @@
 local async = require 'plenary.async'
 
-local rpc = require 'lean.rpc'
+local open = require 'lean.rpc'.open
+
+local rpc = require'lean-lsp-experiments.rpc'
 
 local edit = {
   declaration = {},
@@ -10,10 +12,10 @@ edit.decl = edit.declaration
 function edit.declaration.goto_start(window, sess)
   window = window or 0
   local params = vim.lsp.util.make_position_params(window)
-  sess = sess or rpc.open(params)
+  sess = sess or open(params)
 
   async.void(function()
-    local result = sess:declarationRangeAt(params)
+    local result = rpc.declarationRangeAt(sess, params)
     if not result then
       return
     end
@@ -34,10 +36,10 @@ end
 function edit.declaration.goto_end(window, sess)
   window = window or 0
   local params = vim.lsp.util.make_position_params(window)
-  sess = sess or rpc.open(params)
+  sess = sess or open(params)
 
   async.void(function()
-    local result = sess:declarationRangeAt(params)
+    local result = rpc.declarationRangeAt(sess, params)
     if not result then
       return
     end
